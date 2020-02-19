@@ -1,5 +1,6 @@
 import React,  { useEffect } from 'react';
 import Slider from '../../components/slider';
+import Loading from '../../baseUI/loading/index';
 import { forceCheck } from 'react-lazyload';
 import { connect } from "react-redux";
 import * as actionTypes from './store/actionCreators';
@@ -8,7 +9,7 @@ import Scroll from '../../baseUI/scroll';
 import { Content } from './style.js'
 
 function Recommend(props) {
-  const { bannerList, recommendList } = props;
+  const { bannerList, recommendList, enterLoading } = props;
   const { getBannerDataDispatch, getRecommendListDataDispatch } = props;
   useEffect (() => {
     getBannerDataDispatch ();
@@ -25,12 +26,14 @@ function Recommend(props) {
           <RecommendList recommendList={recommendListJS} ></RecommendList> 
         </div>
       </Scroll>
+      { enterLoading ? <Loading></Loading> : null }
     </Content>
   )
 }
 const mapStateToProps = (state) => ({
   bannerList: state.getIn (['recommend', 'bannerList']),
-  recommendList: state.getIn (['recommend', 'recommendList'])
+  recommendList: state.getIn (['recommend', 'recommendList']),
+  enterLoading: state.getIn (['recommend', 'enterLoading'])
 })
 
 // 映射 dispatch 到 props 上
